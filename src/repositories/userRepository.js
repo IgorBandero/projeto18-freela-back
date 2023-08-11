@@ -11,3 +11,7 @@ export async function checkUserByEmail(email){
 export async function checkUserByCPF(cpf){
     return db.query(`SELECT * FROM users WHERE cpf = $1;`, [cpf]);
 }
+
+export async function newSession(token, userId){
+    return db.query(`INSERT INTO sessions (token, "userId") VALUES ($1, $2);`, [token, userId]);
+}
