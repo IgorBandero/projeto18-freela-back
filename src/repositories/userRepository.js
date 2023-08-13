@@ -21,5 +21,5 @@ export async function checkUserBySession(userId){
 }
 
 export async function deleteSession(userId){
-    return db.query(`DELETE * FROM sessions WHERE "userId"=$1;`, [userId]);
+    return db.query(`DELETE FROM sessions WHERE "userId"=$1;`, [userId]);
 }

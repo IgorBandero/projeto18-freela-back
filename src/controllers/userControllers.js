@@ -55,10 +55,14 @@ export async function login(req, res){
         }
         // Gerar um token e salvar (ou alterar) sessão (token) no banco de dados
         const token = uuid();
-        const session = checkUserBySession(user.rows[0].id);
+
+        const session = await checkUserBySession(user.rows[0].id);
+        console.log(session.rows[0]);
+        
         if(session.rowCount !== 0){
             await deleteSession(user.rows[0].id);
         }
+
         await newSession(token, user.rows[0].id);
         res.status(200).send({ token });
     }
