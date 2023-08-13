@@ -8,7 +8,7 @@ export async function registerUser(req, res){
 
     let { name, cpf, phone, email, password } = req.body;
 
-    name = name.toLowerCase().trim();
+    name = name.replace(/\b\w/g, (letter) => letter.toUpperCase()).trim();
     email = email.toLowerCase().trim();
 
     try{
