@@ -15,3 +15,11 @@ export async function checkUserByCPF(cpf){
 export async function newSession(token, userId){
     return db.query(`INSERT INTO sessions (token, "userId") VALUES ($1, $2);`, [token, userId]);
 }
+
+export async function checkUserBySession(userId){
+    return db.query(`SELECT * FROM sessions WHERE "userId"=$1;`, [userId]);
+}
+
+export async function deleteSession(userId){
+    return db.query(`DELETE * FROM sessions WHERE "userId"=$1;`, [userId]);
+}

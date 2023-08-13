@@ -52,8 +52,12 @@ export async function login(req, res){
         if (!correctPassword){
             return res.status(401).send({ message: "Senha incorreta!" })
         }
-        // Gerar um token e salvar sessão (token) no banco de dados
+        // Gerar um token e salvar (ou alterar) sessão (token) no banco de dados
         const token = uuid();
+        const session = checkUserBySession(user.rows[0].id);
+        if(session.rowCount !== 0){
+            await deleteSession(user.rows[0].id);
+        }
         await newSession(token, user.rows[0].id);
         res.status(200).send({ token });
     }
