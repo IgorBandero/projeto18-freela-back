@@ -6,7 +6,10 @@ import { checkUserByCPF, checkUserByEmail, newSession, newUser } from "../reposi
 
 export async function registerUser(req, res){
 
-    const { name, cpf, phone, email, password } = req.body;
+    let { name, cpf, phone, email, password } = req.body;
+
+    name = name.toLowerCase().trim();
+    email = email.toLowerCase().trim();
 
     try{
 
@@ -34,7 +37,9 @@ export async function registerUser(req, res){
 
 export async function login(req, res){
 
-    const { email, password } = req.body;
+    let { email, password } = req.body;
+
+    email = email.toLowerCase().trim();
 
     try{
         // Verificar se email está cadastrado
