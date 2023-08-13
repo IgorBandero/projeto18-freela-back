@@ -1,6 +1,7 @@
 import bcrypt from "bcrypt";
 import { v4 as uuid } from "uuid";
-import { checkUserByCPF, checkUserByEmail, newSession, newUser } from "../repositories/userRepository.js";
+import { checkUserByCPF, checkUserByEmail, checkUserBySession, 
+         deleteSession, newSession, newUser } from "../repositories/userRepository.js";
 
 //#################################################################################################
 
