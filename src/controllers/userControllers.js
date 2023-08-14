@@ -71,3 +71,24 @@ export async function login(req, res){
         res.status(500).send(error.message);
     }
 }
+
+//#################################################################################################
+
+export async function getUserId(req, res){
+
+    const { authorization } = req.headers; 
+    const token = authorization?.replace("Bearer ", "");
+
+    try{
+
+        const userSession = await checkUserByToken(token);
+        if (userSession.rowCount === 0){
+            return res.status(404).send("Usuário não está logado!");
+        }
+        const userId = userSession.rows[0].userId;
+        res.status(200).send(userId);
+    }
+    catch(error){
+        res.status(500).send(error.message);
+    }
+}
