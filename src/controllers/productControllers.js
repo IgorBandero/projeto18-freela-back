@@ -1,9 +1,7 @@
-
+import { listProducts, newProduct } from "../repositories/productRepository.js";
+import { checkUserByToken } from "../repositories/userRepository.js";
 
 //#################################################################################################
-
-import { newProduct } from "../repositories/productRepository.js";
-import { checkUserByToken } from "../repositories/userRepository.js";
 
 export async function registerProduct(req, res){
 
@@ -32,5 +30,17 @@ export async function registerProduct(req, res){
     }
     catch(error){
         res.status(500).send(error.message);
+    }
+}
+
+//#################################################################################################
+
+export async function getProducts(req, res){
+
+    try{
+        const products = await listProducts();
+        res.send(products.rows);
+    }catch(error){
+        return res.status(500).send(error.message);
     }
 }
