@@ -21,3 +21,11 @@ export async function getProductById(id){
 export async function deleteProductById(id){
     return db.query(`DELETE FROM products WHERE id=$1;`, [id]);
 }
+
+export async function getProduct(id){
+    return db.query(`SELECT products.name, products.image, products.category, products.description, products.price,
+                     users.name AS "sellerName", users.phone, users.email 
+                     FROM products 
+                     JOIN users ON users.id = products."userId"
+                     WHERE products.id = $1;`,[id]);
+}

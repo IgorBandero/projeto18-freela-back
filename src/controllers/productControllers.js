@@ -1,4 +1,4 @@
-import { deleteProductById, getProductById, listProducts, listProductsUser, newProduct } from "../repositories/productRepository.js";
+import { getProduct, deleteProductById, getProductById, listProducts, listProductsUser, newProduct } from "../repositories/productRepository.js";
 import { checkUserByToken } from "../repositories/userRepository.js";
 
 //#################################################################################################
@@ -92,6 +92,24 @@ export async function deleteProduct(req, res){
         }
         await deleteProductById(id);
         res.status(204).send("Produto excluído com sucesso!");
+    }catch(error){
+        return res.status(500).send(error.message);
+    }
+}
+
+//#################################################################################################
+
+export async function getProductDetails(req, res){ 
+
+    const { id } = req.params;
+
+    try{
+        const productDetails = await getProduct(id);
+        if (productDetails.rowCount === 0){
+            return res.status(404).send("Produto não encontrado!");
+        }
+        console.log(productDetails);
+        res.send(productDetails.rows[0]);
     }catch(error){
         return res.status(500).send(error.message);
     }
