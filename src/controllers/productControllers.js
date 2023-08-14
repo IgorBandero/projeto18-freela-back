@@ -1,4 +1,4 @@
-import { listProducts, listProductsUser, newProduct } from "../repositories/productRepository.js";
+import { deleteProductById, getProductById, listProducts, listProductsUser, newProduct } from "../repositories/productRepository.js";
 import { checkUserByToken } from "../repositories/userRepository.js";
 
 //#################################################################################################
@@ -61,6 +61,37 @@ export async function getProductsUser(req, res){
         }
         const products = await listProductsUser(userId);
         res.send(products.rows);
+    }catch(error){
+        return res.status(500).send(error.message);
+    }
+}
+
+//#################################################################################################
+
+export async function deleteProduct(req, res){ 
+
+    const { id } = req.params;
+    const { authorization } = req.headers; 
+    const token = authorization?.replace("Bearer ", "");
+
+    try{
+        // verificar se o token é do userId do produto
+        const userSession = await checkUserByToken(token);
+        const product = await getProductById(id);
+
+        if (userSession.rowCount === 0){
+            return res.status(401).send("Usuário não está logado!");
+        }
+
+        if (product.rowCount === 0){
+            return res.status(404).send("Produto não encontrado!");
+        }
+
+        if (product.rows[0].userId !== userSession.rows[0].userId){
+            return res.status(403).send("Acesso negado!");
+        }
+        await deleteProductById(id);
+        res.status(204).send("Produto excluído com sucesso!");
     }catch(error){
         return res.status(500).send(error.message);
     }

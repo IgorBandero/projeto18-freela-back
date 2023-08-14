@@ -14,3 +14,10 @@ export async function listProductsUser(userId){
     return db.query(`SELECT * FROM products WHERE "userId"=$1;`, [userId]);
 }
 
+export async function getProductById(id){
+    return db.query(`SELECT * FROM products WHERE id=$1;`, [id]);
+}
+
+export async function deleteProductById(id){
+    return db.query(`DELETE FROM products WHERE id=$1;`, [id]);
+}
