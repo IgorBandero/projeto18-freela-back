@@ -23,3 +23,7 @@ export async function checkUserBySession(userId){
 export async function deleteSession(userId){
     return db.query(`DELETE FROM sessions WHERE "userId"=$1;`, [userId]);
 }
+
+export async function checkUserByToken(token){
+    return db.query(`SELECT * FROM sessions WHERE token=$1;`, [token]);
+}

@@ -27,7 +27,7 @@ export async function registerUser(req, res){
         }
         // Criptografar a senha e registrar usuário no banco de dados
         const cryptedPassword = bcrypt.hashSync(password, 10);
-        const user = await newUser(name, cpf, phone, email, cryptedPassword)
+        await newUser(name, cpf, phone, email, cryptedPassword)
         res.status(201).send("Usuário registrado com sucesso!");
     }
     catch(error){
