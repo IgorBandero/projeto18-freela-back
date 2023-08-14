@@ -5,5 +5,5 @@ export const productSchema = Joi.object({
     image: Joi.string().uri().required(), 
     category: Joi.string().min(3).max(20).required(),
     description: Joi.string().min(3).max(200),
-    price: Joi.number().positive().precision(2).required(),
+    price: Joi.string().regex(/^[1-9]\d{0,2}(\.\d{3})*,\d{2}$/).required(),
 });

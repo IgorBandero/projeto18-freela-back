@@ -15,7 +15,7 @@ export async function registerProduct(req, res){
     name = name.replace(/\b\w/g, (letter) => letter.toUpperCase());
 
     category = category.toLowerCase().trim();
-    category = category.replace(/\b\w/g, (letter) => letter.toUpperCase());
+    category = category.charAt(0).toUpperCase() + category.slice(1);
 
     description = description.toLowerCase().trim();
     description = description.charAt(0).toUpperCase() + description.slice(1);
