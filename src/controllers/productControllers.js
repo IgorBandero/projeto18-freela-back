@@ -1,4 +1,4 @@
-import { listProducts, newProduct } from "../repositories/productRepository.js";
+import { listProducts, listProductsUser, newProduct } from "../repositories/productRepository.js";
 import { checkUserByToken } from "../repositories/userRepository.js";
 
 //#################################################################################################
@@ -10,7 +10,7 @@ export async function registerProduct(req, res){
     const token = authorization?.replace("Bearer ", "");
 
     name = name.toLowerCase().trim();
-    name = name.replace(/\b\w/g, (letter) => letter.toUpperCase());
+    name = name.charAt(0).toUpperCase() + name.slice(1);
 
     category = category.toLowerCase().trim();
     category = category.charAt(0).toUpperCase() + category.slice(1);
@@ -39,6 +39,27 @@ export async function getProducts(req, res){
 
     try{
         const products = await listProducts();
+        res.send(products.rows);
+    }catch(error){
+        return res.status(500).send(error.message);
+    }
+}
+
+//#################################################################################################
+
+export async function getProductsUser(req, res){ 
+
+    const { userId } = req.params;
+    const { authorization } = req.headers; 
+    const token = authorization?.replace("Bearer ", "");
+
+    try{
+        // verificar se o token é do userId
+        const userSession = await checkUserByToken(token);
+        if (Number(userId) !== userSession.rows[0].userId){
+            return res.status(403).send("Acesso negado!");
+        }
+        const products = await listProductsUser(userId);
         res.send(products.rows);
     }catch(error){
         return res.status(500).send(error.message);

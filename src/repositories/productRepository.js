@@ -9,3 +9,8 @@ export async function newProduct(name, image, category, description, userId, pri
 export async function listProducts(){
     return db.query(`SELECT * FROM products;`);
 }
+
+export async function listProductsUser(userId){
+    return db.query(`SELECT * FROM products WHERE "userId"=$1;`, [userId]);
+}
+
